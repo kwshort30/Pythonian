@@ -1,0 +1,79 @@
+# board
+def board(lst):
+    print(lst[1] + '|' + lst[2] + '|' + lst[3])
+    print('-----')
+    print(lst[4] + '|' + lst[5] + '|' + lst[6])
+    print('-----')
+    print(lst[7] + '|' + lst[8] + '|' + lst[9])
+
+# some constants to help me out
+empty = [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "]
+fill = empty
+
+#determines if game is over
+gameOn = True
+def gameOver(sym, player):
+    global gameOn
+    global fill
+    win = [[fill[1], fill[2], fill[3]], [fill[1], fill[4], fill[7]], \
+           [fill[1], fill[5], fill[9]], [fill[3], fill[6], fill[9]], \
+           [fill[7], fill[8], fill[9]], [fill[4], fill[5], fill[6]], \
+           [fill[2], fill[5], fill[8]], [fill[3], fill[5], fill[7]]] 
+    syml = [sym, sym, sym]
+    if syml in win:
+        gameOn = player
+    elif " " not in fill[1:]:
+        gameOn = "tie"
+    else:
+        gameOn = True
+
+pos = 0                
+def game(turn, xo):
+    global fill
+    global pos
+    while gameOn == True:
+        playerMove = input("{0}, what is your move? (1-9): ".format(turn[pos]))
+        if playerMove not in ["1", "2", "3", "4", "5", "6", "7", "8", "9"]:
+            game(turn, xo)
+        elif fill[int(playerMove)] != " ":
+            game(turn, xo)
+        else:
+            fill[int(playerMove)] = xo[pos]
+            board(fill)
+            gameOver(xo[pos], turn[pos])
+            if pos == 0:
+                pos += 1
+            else:
+                pos -= 1
+    if gameOn == "tie":
+        again = input("It's a tie!\nDo you want to play again?\n")
+        if again.lower() == "yes":
+            startGame()
+    else: #winner
+        print("Congrats! {0} won!".format(gameOn))
+        again = input("Do you want to play again?\n")
+        if again.lower() == "yes":
+            startGame()
+
+def startGame():
+    global fill
+    global empty
+    fill = empty
+    player1 = input("Player 1, do you want to be X or O?\n")
+    if player1.upper() not in ["X", "O"]:
+        startGame()
+    else:
+        player1 = player1.lower()
+        if player1.upper() == "X":
+            print("Player 1 will go first.")
+            game(["Player 1", "Player 2"], ["X", "O"])
+        else:
+            print("Player 2 will go first.")
+            game(["Player 2", "Player 1"], ["X", "O"])
+
+
+if True:
+    play = input("Welcme to Tic Tac Toe! \nDo you want to play?\n")
+    if play.lower()=="yes":
+        print("Great! Grab a partnr and let's play!")
+        startGame()
