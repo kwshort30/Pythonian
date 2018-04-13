@@ -1,1 +1,1 @@
-# Pythonian
+# This program will allow two users to play tic tac toe on python. They have to just follow the steps and they will be able to play a full game of tic tac toe. Py test was done and multiple failing tests occurred until we found the right program.
